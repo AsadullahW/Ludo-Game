@@ -1,14 +1,12 @@
 using Photon.Pun;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using static Photon.Pun.UtilityScripts.PunTeams;
 
 public class Network_Manager : MonoBehaviourPunCallbacks
 {
     public LudoLevel Player_Level;
     private const string LEVEL = "level";
     private const string TEAM = "";
-    public const int MAx_Players = 2;
+    public const int MAx_Players = 4;
     public static Network_Manager Instance;
     public int Active = 0;
 

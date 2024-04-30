@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
-using static Photon.Pun.UtilityScripts.PunTeams;
 
 public class RollDiceButton : MonoBehaviour {
 
@@ -157,13 +156,3 @@ public class RollDiceButton : MonoBehaviour {
         diceCube.RPC_Roll_Dice(i);
     }
 }
-
-
-
-
-
-
-
-
-
-   

@@ -4,12 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.UIElements;
-using static Photon.Pun.UtilityScripts.PunTeams;
 
 public enum TeamColor
 {
-    Blue = 1, Green = 2, Red = 3, Yellow = 4
+  //  Blue = 1, Green = 2, Red = 3, Yellow = 4
+    Blue = 1, Green = 3, Red = 2, Yellow = 4
 }
 public class MainMenuUI : MonoBehaviour {
 
@@ -57,7 +56,7 @@ public class MainMenuUI : MonoBehaviour {
         {
             //Selection_Menu.SetActive(false);
             //playMenu.SetActive(true);
-            Play2P();
+            Play4P();
         }        
     }
     public void Play_MultiPlayer()
@@ -119,11 +118,11 @@ public class MainMenuUI : MonoBehaviour {
             ShareValues.Color_No = 1;
             
        }
-       else if (occpiedTeam == TeamColor.Green)
+       else if (occpiedTeam == TeamColor.Red)//green
         {
             ShareValues.Color_No = 2;
         }
-        else if (occpiedTeam == TeamColor.Red)
+        else if (occpiedTeam == TeamColor.Green)//red
         {
             ShareValues.Color_No = 3;
         }
