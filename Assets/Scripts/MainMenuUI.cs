@@ -118,13 +118,15 @@ public class MainMenuUI : MonoBehaviour {
             ShareValues.Color_No = 1;
             
        }
-       else if (occpiedTeam == TeamColor.Red)//green
-        {
-            ShareValues.Color_No = 2;
-        }
-        else if (occpiedTeam == TeamColor.Green)//red
+       else if (occpiedTeam == TeamColor.Green)//green
         {
             ShareValues.Color_No = 3;
+            //ShareValues.Color_No = 2;
+        }
+        else if (occpiedTeam == TeamColor.Red)//red
+        {
+            ShareValues.Color_No = 2;
+           // ShareValues.Color_No = 3;
         }
         else if (occpiedTeam == TeamColor.Yellow)
         {
