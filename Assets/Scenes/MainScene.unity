@@ -24780,9 +24780,9 @@ MonoBehaviour:
     type: 3}
   greenTokenPrefab: {fileID: 1240667353806068, guid: f1f441ef098a8634e91bd09ce3979787,
     type: 3}
-  redTokenPrefab: {fileID: 1240667353806068, guid: 54d8306bd93ca724c8efbb699416510f,
+  redTokenPrefab: {fileID: 1240667353806068, guid: af73274a7c4a66c4495d41af2f607de4,
     type: 3}
-  yellowTokenPrefab: {fileID: 1240667353806068, guid: 5514ebb897d58dc448e62513eb066f88,
+  yellowTokenPrefab: {fileID: 1240667353806068, guid: 926f4f9be63245043a720329bc36d57c,
     type: 3}
   blueSpawnNodesTransforms:
   - {fileID: 1068573435}

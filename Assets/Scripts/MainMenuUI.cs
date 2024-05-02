@@ -7,8 +7,7 @@ using UnityEngine.UI;
 
 public enum TeamColor
 {
-  //  Blue = 1, Green = 2, Red = 3, Yellow = 4
-    Blue = 1, Green = 3, Red = 2, Yellow = 4
+    Blue = 1, Green = 2, Red = 3, Yellow = 4
 }
 public class MainMenuUI : MonoBehaviour {
 
@@ -118,15 +117,13 @@ public class MainMenuUI : MonoBehaviour {
             ShareValues.Color_No = 1;
             
        }
-       else if (occpiedTeam == TeamColor.Green)//green
+       else if (occpiedTeam == TeamColor.Green)
         {
             ShareValues.Color_No = 3;
-            //ShareValues.Color_No = 2;
         }
-        else if (occpiedTeam == TeamColor.Red)//red
+        else if (occpiedTeam == TeamColor.Red)
         {
             ShareValues.Color_No = 2;
-           // ShareValues.Color_No = 3;
         }
         else if (occpiedTeam == TeamColor.Yellow)
         {

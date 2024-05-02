@@ -134,6 +134,10 @@ public class RollDiceButton : MonoBehaviour {
                     {
                         View.RPC(nameof(Roll_Dice), RpcTarget.AllBuffered, Random.Range(1, 7));
                     }
+                    else
+                    {
+                        Debug.LogError("Dont touch");
+                    }
                     break;
 
                 case PlayerType.YELLOW:
@@ -144,6 +148,10 @@ public class RollDiceButton : MonoBehaviour {
                       //      View.RPC(nameof(Roll_Dice), RpcTarget.AllBuffered);
                       //  }
                         View.RPC(nameof(Roll_Dice), RpcTarget.AllBuffered , Random.Range(1,7));
+                    }
+                    else
+                    {
+                        Debug.LogError("Dont touch");
                     }
                     break;
             }
