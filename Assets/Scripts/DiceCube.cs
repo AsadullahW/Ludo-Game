@@ -3,7 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DiceCube : MonoBehaviour {
+public class DiceCube : MonoBehaviour 
+{
 
     public int value = 6;
     public int iterations = 10;

@@ -34,7 +34,6 @@ public class RollDiceButton : MonoBehaviour {
             this.transform.GetChild(0).gameObject.SetActive(false);
             arrowShow = false;
         }
-
     }
 
     private void OnMouseDown()
@@ -47,8 +46,6 @@ public class RollDiceButton : MonoBehaviour {
     {
         if (isInteractive == true)
         {
-
-
             switch (playerType)
             {
                 case PlayerType.BLUE:
@@ -60,7 +57,6 @@ public class RollDiceButton : MonoBehaviour {
                         transform.position = transform.position - Vector3.up * 0.000003f;
 
                     }
-
                     break;
             }
         }
@@ -68,9 +64,8 @@ public class RollDiceButton : MonoBehaviour {
    
     private void OnMouseUp()
     {
-      //  View.RPC(nameof(OnMouseUp_Extract), RpcTarget.All );
+        //View.RPC(nameof(OnMouseUp_Extract), RpcTarget.All );
         OnMouseUp_Extract();
-       // OnMouseUp_Extract();
     }
     //[PunRPC]
     private void OnMouseUp_Extract()
@@ -103,7 +98,7 @@ public class RollDiceButton : MonoBehaviour {
                     }
                     else 
                     {
-                        ShareValues.Color_No = 5;
+                       // ShareValues.Color_No = 5;
                         Debug.LogError("Dont touch");
                     }
                     break;
@@ -111,7 +106,7 @@ public class RollDiceButton : MonoBehaviour {
                 case PlayerType.GREEN:
 
 
-                    if (PhotonNetwork.LocalPlayer.ActorNumber == 2)
+                    if (PhotonNetwork.LocalPlayer.ActorNumber == 3)//2
                     {
                      //   Network_Manager.Instance.select_team(2);
 
@@ -130,7 +125,7 @@ public class RollDiceButton : MonoBehaviour {
 
                 case PlayerType.RED:
 
-                    if (PhotonNetwork.LocalPlayer.ActorNumber == 3)
+                    if (PhotonNetwork.LocalPlayer.ActorNumber == 2)//3
                     {
                         View.RPC(nameof(Roll_Dice), RpcTarget.AllBuffered, Random.Range(1, 7));
                     }

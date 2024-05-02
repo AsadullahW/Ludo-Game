@@ -88,11 +88,12 @@ public class GameManager : MonoBehaviour {
     private void Start()
     {
         SetupGame();
-     //   Debug.LogError(NumberOfPlayers + "No_of_Players_ on Game");
-        Debug.LogError(PhotonNetwork.LocalPlayer.ActorNumber + "Start");
-        //Network_Manager.Instance.Prepare_turn_selection_options();
         MainMenuUI.Instance.Select_team(1);
         View = GetComponent<PhotonView>();
+
+
+
+        Debug.Log("Actor Num is" + PhotonNetwork.LocalPlayer.ActorNumber);
 
     }
     private void Update()
@@ -144,18 +145,18 @@ public class GameManager : MonoBehaviour {
             {
                 if(token.tokenStatus == TokenStatus.LOCKED_IN_SPAWN && dice.value == 6)
                 {
-                   // View.RPC(nameof(PlayWithChosenToken_func), RpcTarget.AllBuffered, token);
+                  //  View.RPC(nameof(PlayWithChosenToken_func), RpcTarget.AllBuffered, token);//asad
 
-                   // PlayWithChosenToken_func(token);
+                  //  PlayWithChosenToken_func(token);//asad
                     StartCoroutine(PlayWithChosenToken(token));
                     break;
                 }
                 if(token.tokenStatus == TokenStatus.FREE_TO_MOVE)
                     if(token.GetParentNodeComponent().interactable == true)
                     {
-                       // View.RPC(nameof(PlayWithChosenToken_func), RpcTarget.AllBuffered,token);
+                      //  View.RPC(nameof(PlayWithChosenToken_func), RpcTarget.AllBuffered,token);//asad
 
-                      //  PlayWithChosenToken_func(token);
+                      //  PlayWithChosenToken_func(token);//asad
                         StartCoroutine(PlayWithChosenToken(token));
                         break;
                     }
@@ -168,6 +169,7 @@ public class GameManager : MonoBehaviour {
     {
         StartCoroutine(PlayWithChosenToken(token));
     }
+    [PunRPC]//asad
     public IEnumerator PlayWithChosenToken(Token token)
     {
 
@@ -407,8 +409,3 @@ public class GameManager : MonoBehaviour {
     }
 
 }
-
-
-
-
-   

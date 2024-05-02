@@ -54,6 +54,7 @@ MonoBehaviour:
   - Interact_New
   - PlayWithChosenToken_func
   - New_One
+  - PlayWithChosenToken
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

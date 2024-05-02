@@ -10,6 +10,8 @@ public class TokenComponent : MonoBehaviour {
     public Token tokenInstance;
     public PlayerType playerType;
 
+    [SerializeField] private int actorNum = 0;
+
     PhotonView View;
 
 
@@ -19,6 +21,7 @@ public class TokenComponent : MonoBehaviour {
             return;
 
         View = GetComponent<PhotonView>();
+        actorNum = PhotonNetwork.LocalPlayer.ActorNumber;
 
     }
 
@@ -30,16 +33,18 @@ public class TokenComponent : MonoBehaviour {
 
     private void OnMouseDown()
     {
-      //  View.RPC(nameof(OnMouse_Down), RpcTarget.AllBuffered);
+        //  View.RPC(nameof(OnMouse_Down), RpcTarget.AllBuffered);
 
-
+        Debug.Log("Token Component");
         PhotonView photonView = PhotonView.Get(this);
 
         switch (playerType)
         {
             case PlayerType.BLUE:
+
                 if (PhotonNetwork.LocalPlayer.ActorNumber == 1 && View.IsMine)
                 {
+                    Debug.Log("Click On Blue");
                     photonView.RPC(nameof(OnMouse_Down), RpcTarget.All);
                 }
                 else
@@ -50,8 +55,38 @@ public class TokenComponent : MonoBehaviour {
                 break;
             
             case PlayerType.GREEN:
+
+                if (PhotonNetwork.LocalPlayer.ActorNumber == 3 && View.IsMine)
+                {
+                    Debug.Log("Click On Green");
+                    photonView.RPC(nameof(OnMouse_Down), RpcTarget.All);
+                }
+                else
+                {
+                    ShareValues.Color_No = 5;
+                    Debug.LogError("Dont touch");
+                }
+                break;
+
+            case PlayerType.RED:
+
                 if (PhotonNetwork.LocalPlayer.ActorNumber == 2 && View.IsMine)
                 {
+                    Debug.Log("Click On Red");
+                    photonView.RPC(nameof(OnMouse_Down), RpcTarget.All);
+                }
+                else
+                {
+                    ShareValues.Color_No = 5;
+                    Debug.LogError("Dont touch");
+                }
+                break;
+
+            case PlayerType.YELLOW:
+
+                if (PhotonNetwork.LocalPlayer.ActorNumber == 4 && View.IsMine)
+                {
+                    Debug.Log("Click On Yellow");
                     photonView.RPC(nameof(OnMouse_Down), RpcTarget.All);
                 }
                 else
@@ -138,12 +173,4 @@ public class TokenComponent : MonoBehaviour {
         isColliding = false;
     }
 }
-
-
-
-
-
-
-
-
    

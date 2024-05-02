@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using Photon.Pun;
+using System;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using static Photon.Pun.UtilityScripts.PunTeams;
 
 public enum TeamColor
 {
@@ -105,13 +105,14 @@ public class MainMenuUI : MonoBehaviour {
 
 
     public void Select_team(int team)
-    {
+    { 
         Network_Manager.Instance.select_team(team);
     }
     public void Restricted_Team_Choice(TeamColor occpiedTeam)
     {
        // Button buttonToDeactivate = occpiedTeam == TeamColor.White ? whiteTeamButtonButton : blackTeamButtonButton;
        // buttonToDeactivate.interactable = false;
+
        if(occpiedTeam == TeamColor.Blue)
        {
             ShareValues.Color_No = 1;

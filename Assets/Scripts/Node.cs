@@ -44,6 +44,7 @@ public class Node : MonoBehaviour {
 
     private void OnMouseDown()
     {
+        Debug.Log("Node");
         //View.RPC(nameof(Interact), RpcTarget.AllBuffered);
         Interact();
     }
@@ -57,6 +58,7 @@ public class Node : MonoBehaviour {
             switch (gm.currentPlayer.playerType)
             {
                 case PlayerType.BLUE:
+
                     if (PhotonNetwork.LocalPlayer.ActorNumber == 1)
                     {
                         //chosenToken = bluePlayers[0];
@@ -66,10 +68,11 @@ public class Node : MonoBehaviour {
                     }
                     break;
                 case PlayerType.GREEN:
-                    if (PhotonNetwork.LocalPlayer.ActorNumber == 2)
+                    Debug.Log("Green Actor Num" + PhotonNetwork.LocalPlayer.ActorNumber);
+                    if (PhotonNetwork.LocalPlayer.ActorNumber == 3)
                     {
                         //chosenToken = bluePlayers[0];
-                        Debug.LogError("oper Green");
+                        Debug.LogError("open Green");
 
                         ShareValues.For_Node_no = 2;
                         View.RPC(nameof(New_One), RpcTarget.AllBuffered);
@@ -77,9 +80,27 @@ public class Node : MonoBehaviour {
                     //chosenToken = greenPlayers[0];
                     break;
                 case PlayerType.RED:
+
+                    Debug.Log("Red Actor Num" + PhotonNetwork.LocalPlayer.ActorNumber);
+                    if (PhotonNetwork.LocalPlayer.ActorNumber == 2)//3
+                    {
+                        Debug.Log("Open Red");
+
+                        ShareValues.For_Node_no = 3;
+                        View.RPC(nameof(New_One), RpcTarget.AllBuffered);
+                    }
+               
                     //chosenToken = redPlayers[0];
                     break;
                 case PlayerType.YELLOW:
+
+                    if(PhotonNetwork.LocalPlayer.ActorNumber == 4)
+                    {
+                        Debug.Log("Open Yellow");
+
+                        ShareValues.For_Node_no = 4;
+                        View.RPC(nameof(New_One), RpcTarget.AllBuffered);
+                    }
                     //chosenToken = yellowPlayers[0];
                     break;
             }
@@ -98,26 +119,63 @@ public class Node : MonoBehaviour {
         switch (gm.currentPlayer.playerType)
         {
             case PlayerType.BLUE:
-                    Debug.LogError("neechy blue");
+
+                Debug.Log("Node Blue");
+                if (bluePlayers.Count !=0)
+                {
                     chosenToken = bluePlayers[0];
                     gm.StartCoroutine(gm.PlayWithChosenToken(chosenToken));
+                }
+
                 if (ShareValues.For_Node_no == 1)
                 {
+
                 }
                 break;
+
             case PlayerType.GREEN:
+
+                if(greenPlayers.Count != 0)
+                {
                     chosenToken = greenPlayers[0];
-                    Debug.LogError("neechy green");
+                    Debug.LogError("Node green");
                     gm.StartCoroutine(gm.PlayWithChosenToken(chosenToken));
+                }
+
                 if (ShareValues.For_Node_no == 2)
                 {
+
                 }
                 break;
+
             case PlayerType.RED:
-                chosenToken = redPlayers[0];
+
+                if(redPlayers.Count != 0)
+                {
+                    chosenToken = redPlayers[0];
+                    Debug.Log("Node Red");
+                    gm.StartCoroutine(gm.PlayWithChosenToken(chosenToken));
+                }
+
+                if (ShareValues.For_Node_no == 3)
+                {
+
+                }
                 break;
+
             case PlayerType.YELLOW:
-                chosenToken = yellowPlayers[0];
+
+                if(yellowPlayers.Count != 0)
+                {
+                    Debug.Log("Node Yellow");
+                    chosenToken = yellowPlayers[0];
+                    gm.StartCoroutine(gm.PlayWithChosenToken(chosenToken));
+                }
+
+                if(ShareValues.For_Node_no == 3)
+                {
+
+                }
                 break;
         }
        // GameManager.instance.StartCoroutine(GameManager.instance.PlayWithChosenToken(token));

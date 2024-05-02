@@ -36,7 +36,7 @@ public class SpawnNode : MonoBehaviour {
 
     private void OnMouseDown()
     {
-        Debug.LogError("SpawnNode + On mouseDown");
+        Debug.Log("SpawnNode + On mouseDown");
         //  View.RPC(nameof(Interact), RpcTarget.AllBuffered);
         Interact();
     }
@@ -52,9 +52,10 @@ public class SpawnNode : MonoBehaviour {
             switch (token.tokenType)
             {
                 case PlayerType.BLUE:
+
                     if (PhotonNetwork.LocalPlayer.ActorNumber == 1)
                     {
-                        Debug.LogError("11");
+                        Debug.LogError("Blue");
                         View.RPC(nameof(New_One), RpcTarget.AllBuffered);
                     }
                     else
@@ -65,9 +66,38 @@ public class SpawnNode : MonoBehaviour {
                     break;
 
                 case PlayerType.GREEN:
-                    if (PhotonNetwork.LocalPlayer.ActorNumber == 2)
+
+                    if (PhotonNetwork.LocalPlayer.ActorNumber == 3)//2
                     {
-                        Debug.LogError("22");
+                        Debug.LogError("Green");
+                        View.RPC(nameof(New_One), RpcTarget.AllBuffered);
+                    }
+                    else
+                    {
+                        ShareValues.Color_No = 5;
+                        Debug.LogError("Dont touch");
+                    }
+                    break;
+
+                case PlayerType.RED:
+
+                    if (PhotonNetwork.LocalPlayer.ActorNumber == 2)//3
+                    {
+                        Debug.LogError("Red");
+                        View.RPC(nameof(New_One), RpcTarget.AllBuffered);
+                    }
+                    else
+                    {
+                        ShareValues.Color_No = 5;
+                        Debug.LogError("Dont touch");
+                    }
+                    break;
+
+                case PlayerType.YELLOW:
+
+                    if (PhotonNetwork.LocalPlayer.ActorNumber == 4)
+                    {
+                        Debug.LogError("Yellow");
                         View.RPC(nameof(New_One), RpcTarget.AllBuffered);
                     }
                     else
@@ -85,7 +115,6 @@ public class SpawnNode : MonoBehaviour {
     public void New_One()
     {
         GameManager.instance.StartCoroutine(GameManager.instance.PlayWithChosenToken(token));
-
     }
 }
 
