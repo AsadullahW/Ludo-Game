@@ -55,6 +55,7 @@ MonoBehaviour:
   - PlayWithChosenToken_func
   - New_One
   - PlayWithChosenToken
+  - WaitForOtherPlayer
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

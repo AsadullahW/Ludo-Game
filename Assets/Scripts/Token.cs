@@ -16,6 +16,8 @@ public class Token {
 
     public TokenStatus tokenStatus;
 
+    public bool can_Move = false;
+
     public void SetParentNode(Transform _parentNode)
     {
         parentNode = _parentNode;

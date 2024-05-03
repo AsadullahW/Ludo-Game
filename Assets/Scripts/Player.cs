@@ -1,12 +1,14 @@
-﻿using UnityEngine;
-
+﻿using System.Collections.Generic;
+using UnityEngine;
+using System.Collections;
+using System;
 public class Player {
 
     public string name;
     public Token[] tokens;
     public PlayerType playerType;
 
-    public Player(PlayerType _playerType, Transform[] spawnNodes, Transform[] tokenTransforms)
+   public Player(PlayerType _playerType, Transform[] spawnNodes, Transform[] tokenTransforms)
     {
         playerType = _playerType;
 
@@ -33,7 +35,10 @@ public class Player {
             tokens[i] = new Token(playerType, spawnNodes[i], tokenTransforms[i]);
         }
     }
-	
+
+  
+
+
     public bool HasWon()
     {
         foreach (Token token in tokens)

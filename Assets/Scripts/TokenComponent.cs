@@ -10,8 +10,6 @@ public class TokenComponent : MonoBehaviour {
     public Token tokenInstance;
     public PlayerType playerType;
 
-    [SerializeField] private int actorNum = 0;
-
     PhotonView View;
 
 
@@ -21,7 +19,6 @@ public class TokenComponent : MonoBehaviour {
             return;
 
         View = GetComponent<PhotonView>();
-        actorNum = PhotonNetwork.LocalPlayer.ActorNumber;
 
     }
 
@@ -34,8 +31,6 @@ public class TokenComponent : MonoBehaviour {
     private void OnMouseDown()
     {
         //  View.RPC(nameof(OnMouse_Down), RpcTarget.AllBuffered);
-
-        Debug.Log("Token Component");
         PhotonView photonView = PhotonView.Get(this);
 
         switch (playerType)

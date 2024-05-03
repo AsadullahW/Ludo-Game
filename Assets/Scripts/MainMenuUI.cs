@@ -1,9 +1,9 @@
 ﻿using Photon.Pun;
 using System;
+using System.Collections;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
-using static Photon.Pun.UtilityScripts.PunTeams;
 
 public enum TeamColor
 {
@@ -15,10 +15,14 @@ public class MainMenuUI : MonoBehaviour {
     public ScreenFader fader;
     public GameObject mainMenu;
     public GameObject Selection_Menu;
+    public GameObject loadingPanel;
     public GameObject playMenu;
     public Dropdown Game_Level_Selection;
     public Text Waiting_Text;
 
+    public Text WaitForOther;
+
+    public int totalPlayer = 4;
     private void Awake()
     {
         Game_Level_Selection.AddOptions(Enum.GetNames(typeof(LudoLevel)).ToList());
@@ -32,32 +36,46 @@ public class MainMenuUI : MonoBehaviour {
             return;
         }
     }
-    private void Start()
-    {
-
-    }
     private void Update()
     {
         RenderSettings.skybox.SetFloat("_Rotation", Time.time * 4.4f);
     }
     public void Play()
     {
-        if(Generic_UI.Instance.Con_State.text == "Joined")
-        {
-            mainMenu.SetActive(false);
-            Selection_Menu.SetActive(true);
-        }
-
+        mainMenu.SetActive(false);
+        Selection_Menu.SetActive(true);
     }
-    public void Play_Single_Player()
+    public void JoinMultiplayerLobby()
     {
-        if(Generic_UI.Instance.Con_State.text == "Joined")
-        {
-            //Selection_Menu.SetActive(false);
-            //playMenu.SetActive(true);
-            Play4P();
-        }        
+        Selection_Menu.SetActive(false);
+        loadingPanel.SetActive(true);
+        StartCoroutine(ConnectToServer());
+
+        Network_Manager.Instance.OnConnect_Mine();
     }
+    private IEnumerator ConnectToServer()
+    {
+        yield return new WaitForSeconds(1);
+        while (Generic_UI.Instance.Con_State.text != "Joined"  && totalPlayer.Equals(0))
+        {
+            yield return new WaitForSeconds(3);
+            Play4P();
+            yield return null;
+        }
+    }
+   
+    public void UpdatePlayerInfo()
+    {
+        totalPlayer--;
+        WaitForOther.text = "Please wait for other " + totalPlayer + " players...";
+        if(totalPlayer == 0)
+        {
+            WaitForOther.text = "Enter in match...";
+            Play4P();
+           // Destroy(Network_Manager.Instance.photonView);
+        }
+    }
+
     public void Play_MultiPlayer()
     {
         Selection_Menu.SetActive(false);
@@ -89,6 +107,7 @@ public class MainMenuUI : MonoBehaviour {
 
     public void Play4P()
     {
+        Generic_UI.Instance.Player_no.gameObject.SetActive(true);
         GameManager.NumberOfPlayers = 4;
         fader.FadeTo("MainScene");
     }

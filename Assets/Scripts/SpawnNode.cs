@@ -21,7 +21,7 @@ public class SpawnNode : MonoBehaviour {
     {
         if (token == null)
             return;
-        if(token.tokenStatus == TokenStatus.LOCKED_IN_SPAWN)
+        if (token.tokenStatus == TokenStatus.LOCKED_IN_SPAWN)
         {
             token.tokenTransform.position = Vector3.Slerp(token.tokenTransform.position, GetPosition(), smoothness * Time.deltaTime);
         }

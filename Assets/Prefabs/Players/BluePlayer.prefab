@@ -117,6 +117,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isColliding: 0
   isInteractedWith: 0
+  tokenInstance:
+    tokenTransform: {fileID: 0}
+    tokenType: 0
+    originalSpawnNode: {fileID: 0}
+    originalSpawnNodeComponent: {fileID: 0}
+    parentNode: {fileID: 0}
+    originalScale: {x: 0, y: 0, z: 0}
+    tokenComponent: {fileID: 0}
+    tokenStatus: 0
   playerType: 0
 --- !u!54 &54219395010791694
 Rigidbody:

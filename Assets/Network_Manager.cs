@@ -1,5 +1,6 @@
 using Photon.Pun;
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class Network_Manager : MonoBehaviourPunCallbacks
@@ -11,6 +12,7 @@ public class Network_Manager : MonoBehaviourPunCallbacks
     public static Network_Manager Instance;
     public int Active = 0;
 
+    PhotonView view;
     private void Awake()
     {
         if (Instance == null)
@@ -25,11 +27,7 @@ public class Network_Manager : MonoBehaviourPunCallbacks
 
         DontDestroyOnLoad(gameObject);
         PhotonNetwork.AutomaticallySyncScene = true;
-    }
-    
-    private void Start()
-    {
-        OnConnect_Mine();
+        view = GetComponent<PhotonView>();
     }
     public void OnConnect_Mine()
     {
@@ -42,6 +40,7 @@ public class Network_Manager : MonoBehaviourPunCallbacks
             PhotonNetwork.ConnectUsingSettings();
         }
     }
+   
     private void Update()
     {
         Generic_UI.Instance.Con_State.text =  PhotonNetwork.NetworkClientState.ToString();
@@ -69,12 +68,18 @@ public class Network_Manager : MonoBehaviourPunCallbacks
     }
     public override void OnJoinedRoom()
     {
+        view.RPC(nameof(WaitForOtherPlayer), RpcTarget.AllBuffered);
         Prepare_team_selection_options();
-    //    Prepare_turn_selection_options();
+    }
+
+    [PunRPC]
+    public void WaitForOtherPlayer()
+    {
+        MainMenuUI.Instance.UpdatePlayerInfo();
     }
     public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
     {
-        Debug.LogError(newPlayer.ActorNumber + "Seconds_Players_ In_MultiPlayer");
+        Debug.Log("Actor Num"+newPlayer.ActorNumber);
     }
 
     public void Set_Player_Level(LudoLevel level)
@@ -94,20 +99,32 @@ public class Network_Manager : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.LocalPlayer.ActorNumber == 1)
         {
+            Debug.Log("Set the cutom properties player" + PhotonNetwork.LocalPlayer.ActorNumber);
             PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { TEAM, team } });
         }
         else if (PhotonNetwork.LocalPlayer.ActorNumber == 2)
         {
+            Debug.Log("Set the cutom properties player" + PhotonNetwork.LocalPlayer.ActorNumber);
             PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { TEAM, team } });
         }
         else if (PhotonNetwork.LocalPlayer.ActorNumber == 3)
         {
+            Debug.Log("Set the cutom properties player" + PhotonNetwork.LocalPlayer.ActorNumber);
             PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { TEAM, team } });
         }
         else if (PhotonNetwork.LocalPlayer.ActorNumber == 4)
         {
+            Debug.Log("Set the cutom properties player" + PhotonNetwork.LocalPlayer.ActorNumber);
             PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { TEAM, team } });
         }
+
+        //if (PhotonNetwork.LocalPlayer != null)
+        //{
+        //    Hashtable customProps = new Hashtable();
+        //    customProps[TEAM] = team;
+        //    PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { TEAM, team } });
+        //}
+
         //  PhotonNetwork.SetMasterClient(PhotonNetwork.LocalPlayer);
     }
     public void Prepare_team_selection_options()
@@ -143,7 +160,6 @@ public class Network_Manager : MonoBehaviourPunCallbacks
             if (((int)(TeamColor)occupiedTam) == 1)
             {
                 PhotonNetwork.SetMasterClient(Current_Player);
-                Debug.LogError("here");
                 ShareValues.Current_no++;
                 if (ShareValues.Current_no > GameManager.NumberOfPlayers)
                 {

@@ -112,7 +112,7 @@ public class RollDiceButton : MonoBehaviour {
 
                         //      Network_Manager.Instance.Prepare_turn_selection_options();
 
-                        Debug.LogError("Clicked_2");
+                        Debug.LogError("Clicked_3");
                        View.RPC(nameof(Roll_Dice), RpcTarget.AllBuffered, Random.Range(1, 7));
 
                     }

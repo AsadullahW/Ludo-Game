@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
+using static com.bhambhoo.fairludo.Constants;
 public class GameManager : MonoBehaviour {
 
     #region singleton
@@ -21,7 +22,7 @@ public class GameManager : MonoBehaviour {
     #endregion
 
     [SerializeField]
-    public static int _numberOfPlayers = 2;
+    public static int _numberOfPlayers = 4;
     public static int NumberOfPlayers
     {
         get { return _numberOfPlayers; }
@@ -90,11 +91,6 @@ public class GameManager : MonoBehaviour {
         SetupGame();
         MainMenuUI.Instance.Select_team(1);
         View = GetComponent<PhotonView>();
-
-
-
-        Debug.Log("Actor Num is" + PhotonNetwork.LocalPlayer.ActorNumber);
-
     }
     private void Update()
     {
@@ -169,7 +165,6 @@ public class GameManager : MonoBehaviour {
     {
         StartCoroutine(PlayWithChosenToken(token));
     }
-    [PunRPC]//asad
     public IEnumerator PlayWithChosenToken(Token token)
     {
 
@@ -370,13 +365,14 @@ public class GameManager : MonoBehaviour {
                 players.Add(SetupPlayer(PlayerType.GREEN, greenTokenPrefab, greenSpawnNodesTransforms));
                 break;
             case 4:
+
                 players.Add(SetupPlayer(PlayerType.BLUE, blueTokenPrefab, blueSpawnNodesTransforms));
                 players.Add(SetupPlayer(PlayerType.RED, redTokenPrefab, redSpawnNodesTransforms));
                 players.Add(SetupPlayer(PlayerType.GREEN, greenTokenPrefab, greenSpawnNodesTransforms));
                 players.Add(SetupPlayer(PlayerType.YELLOW, yellowTokenPrefab, yellowSpawnNodesTransforms));
                 break;
         }
-     //   CurrentPlayerIndex = Random.Range(0, NumberOfPlayers);
+        //   CurrentPlayerIndex = Random.Range(0, NumberOfPlayers);
         CurrentPlayerIndex = 0;
         currentPlayer = players[CurrentPlayerIndex];
     }
