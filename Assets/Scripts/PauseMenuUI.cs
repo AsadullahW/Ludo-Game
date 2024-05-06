@@ -33,6 +33,7 @@ public class PauseMenuUI : MonoBehaviour {
 
     public void Menu()
     {
+        Generic_UI.Instance.playerLeft_Info.gameObject.SetActive(false);
         fader.FadeTo("MainMenu");
     }
 

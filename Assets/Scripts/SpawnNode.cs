@@ -55,7 +55,6 @@ public class SpawnNode : MonoBehaviour {
 
                     if (PhotonNetwork.LocalPlayer.ActorNumber == 1)
                     {
-                        Debug.LogError("Blue");
                         View.RPC(nameof(New_One), RpcTarget.AllBuffered);
                     }
                     else
@@ -67,9 +66,18 @@ public class SpawnNode : MonoBehaviour {
 
                 case PlayerType.GREEN:
 
-                    if (PhotonNetwork.LocalPlayer.ActorNumber == 3)//2
+                    int nextTurn = 0;
+                    if (GameManager.is_2vs2)
                     {
-                        Debug.LogError("Green");
+                        nextTurn = 2;
+                    }
+                    else
+                    {
+                        nextTurn = 3;
+                    }
+
+                    if (PhotonNetwork.LocalPlayer.ActorNumber == nextTurn)//2
+                    {
                         View.RPC(nameof(New_One), RpcTarget.AllBuffered);
                     }
                     else
@@ -81,9 +89,12 @@ public class SpawnNode : MonoBehaviour {
 
                 case PlayerType.RED:
 
+                    if (GameManager.is_2vs2)
+                    {
+                        return;
+                    }
                     if (PhotonNetwork.LocalPlayer.ActorNumber == 2)//3
                     {
-                        Debug.LogError("Red");
                         View.RPC(nameof(New_One), RpcTarget.AllBuffered);
                     }
                     else

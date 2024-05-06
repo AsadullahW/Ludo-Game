@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
-using static com.bhambhoo.fairludo.Constants;
 public class GameManager : MonoBehaviour {
 
     #region singleton
@@ -28,6 +27,7 @@ public class GameManager : MonoBehaviour {
         get { return _numberOfPlayers; }
         set { _numberOfPlayers = Mathf.Clamp(value, 2, 4); }
     }
+
 
     [SerializeField]
     private int _currentPlayerIndex;
@@ -56,6 +56,7 @@ public class GameManager : MonoBehaviour {
     public Player currentPlayer;
 
     public bool waitingForRoll = true;
+    public static bool is_2vs2 = false;
     public DiceCube dice;
 
     public WinningUI winningUI;
@@ -84,6 +85,9 @@ public class GameManager : MonoBehaviour {
     public GameObject greenLifeEffectPrefab;
     public GameObject redLifeEffectPrefab;
     public GameObject yellowLifeEffectPrefab;
+
+    
+
     PhotonView View;
 
     private void Start()
@@ -168,7 +172,7 @@ public class GameManager : MonoBehaviour {
     public IEnumerator PlayWithChosenToken(Token token)
     {
 
-        Debug.LogError("Entered");
+        Debug.Log("Move Token");
 
         ResetInteractables();
         // The chosen token can only be ready to be spawned (in which case the player rolled 6) 
@@ -274,7 +278,6 @@ public class GameManager : MonoBehaviour {
             if (!(token.tokenStatus == TokenStatus.WON && !currentPlayer.HasWon() || dice.value == 6 || hasKilled))
             {
                 currentPlayer = GetNextPlayer();
-                Debug.LogError("Newssss_Dosra");
             }
             hasKilled = false;
             waitingForRoll = true;
@@ -356,15 +359,38 @@ public class GameManager : MonoBehaviour {
         switch (NumberOfPlayers)
         {
             case 2:
+
+                for(int i=0;i<blueSpawnNodesTransforms.Length;i++)
+                {
+                    blueSpawnNodesTransforms[i].gameObject.SetActive(is_2vs2);
+                    greenSpawnNodesTransforms[i].gameObject.SetActive(is_2vs2);
+                }
+
                 players.Add(SetupPlayer(PlayerType.BLUE, blueTokenPrefab, blueSpawnNodesTransforms));
                 players.Add(SetupPlayer(PlayerType.GREEN, greenTokenPrefab, greenSpawnNodesTransforms));
                 break;
             case 3:
+
+                for (int i = 0; i < blueSpawnNodesTransforms.Length; i++)
+                {
+                    blueSpawnNodesTransforms[i].gameObject.SetActive(!is_2vs2);
+                    redSpawnNodesTransforms[i].gameObject.SetActive(!is_2vs2);
+                    greenSpawnNodesTransforms[i].gameObject.SetActive(!is_2vs2);
+                }
+
                 players.Add(SetupPlayer(PlayerType.BLUE, blueTokenPrefab, blueSpawnNodesTransforms));
                 players.Add(SetupPlayer(PlayerType.RED, redTokenPrefab, redSpawnNodesTransforms));
                 players.Add(SetupPlayer(PlayerType.GREEN, greenTokenPrefab, greenSpawnNodesTransforms));
                 break;
             case 4:
+
+                for (int i = 0; i < blueSpawnNodesTransforms.Length; i++)
+                {
+                    blueSpawnNodesTransforms[i].gameObject.SetActive(!is_2vs2);
+                    redSpawnNodesTransforms[i].gameObject.SetActive(!is_2vs2);
+                    greenSpawnNodesTransforms[i].gameObject.SetActive(!is_2vs2);
+                    yellowSpawnNodesTransforms[i].gameObject.SetActive(!is_2vs2);
+                }
 
                 players.Add(SetupPlayer(PlayerType.BLUE, blueTokenPrefab, blueSpawnNodesTransforms));
                 players.Add(SetupPlayer(PlayerType.RED, redTokenPrefab, redSpawnNodesTransforms));

@@ -51,7 +51,17 @@ public class TokenComponent : MonoBehaviour {
             
             case PlayerType.GREEN:
 
-                if (PhotonNetwork.LocalPlayer.ActorNumber == 3 && View.IsMine)
+                int move = 0;
+
+                if(GameManager.is_2vs2)
+                {
+                    move = 2;
+                }
+                else
+                {
+                    move = 3;
+                }
+                if (PhotonNetwork.LocalPlayer.ActorNumber == move && View.IsMine)
                 {
                     Debug.Log("Click On Green");
                     photonView.RPC(nameof(OnMouse_Down), RpcTarget.All);

@@ -3,21 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class RollDiceButton : MonoBehaviour {
-
+public class RollDiceButton : MonoBehaviour 
+{
     public Animator animator;
     public bool isInteractive;
     public PlayerType playerType;
     public DiceCube diceCube;
     private GameManager gm;
-    PhotonView View;
     private const string TEAM = "";
+    private PhotonView view;
 
     public bool arrowShow;
     private void Start()
     {
         gm = GameManager.instance;
-        View = GetComponent<PhotonView>();
+        view = GetComponent<PhotonView>();
     }
 
     private void Update()
@@ -38,8 +38,7 @@ public class RollDiceButton : MonoBehaviour {
 
     private void OnMouseDown()
     {
-        View.RPC(nameof(OnMouseDownExtract), RpcTarget.All);
-        //OnMouseDownExtract();
+        view.RPC(nameof(OnMouseDownExtract), RpcTarget.All);
     }
     [PunRPC]
     private void OnMouseDownExtract()
@@ -52,7 +51,7 @@ public class RollDiceButton : MonoBehaviour {
 
                     var occupiedTam = 0;
                     MainMenuUI.Instance.Restricted_Team_Choice((TeamColor)occupiedTam);
-                    if (PhotonNetwork.LocalPlayer.ActorNumber == 1 && ShareValues.Color_No == 1 && View.IsMine)
+                    if (PhotonNetwork.LocalPlayer.ActorNumber == 1 && ShareValues.Color_No == 1 && view.IsMine)
                     {
                         transform.position = transform.position - Vector3.up * 0.000003f;
 
@@ -64,89 +63,57 @@ public class RollDiceButton : MonoBehaviour {
    
     private void OnMouseUp()
     {
-        //View.RPC(nameof(OnMouseUp_Extract), RpcTarget.All );
         OnMouseUp_Extract();
     }
     //[PunRPC]
     private void OnMouseUp_Extract()
     {
-        if (isInteractive == true  )
+        if (isInteractive == true)
         {
             transform.position = transform.position + Vector3.up * 0.000003f;
 
             switch (playerType)
             {
                 case PlayerType.BLUE:
+
                     if (PhotonNetwork.LocalPlayer.ActorNumber == 1)
                     {
-
-                     //   Network_Manager.Instance.select_team(1);
-
-                        //ar First_Player =  PhotonNetwork.CurrentRoom.GetPlayer(1);
-                        //
-                        //  Network_Manager.Instance.select_team(1);
-                        //
-                        // var occupiedTam = First_Player.CustomProperties[TEAM];
-                        // if (((int)(TeamColor)occupiedTam) == 1)
-                        // {
-                        //     Debug.LogError("Clicked_1");
-                        //     View.RPC(nameof(Roll_Dice), RpcTarget.AllBuffered, Random.Range(1, 7));
-                        // }
-
-                        View.RPC(nameof(Roll_Dice), RpcTarget.AllBuffered, Random.Range(1, 7));
-
-                    }
-                    else 
-                    {
-                       // ShareValues.Color_No = 5;
-                        Debug.LogError("Dont touch");
+                        view.RPC(nameof(Roll_Dice), RpcTarget.AllBuffered, Random.Range(1, 7));
                     }
                     break;
 
                 case PlayerType.GREEN:
 
-
-                    if (PhotonNetwork.LocalPlayer.ActorNumber == 3)//2
+                    int nextTurn = 0;
+                    if (GameManager.is_2vs2)
                     {
-                     //   Network_Manager.Instance.select_team(2);
-
-                        //      Network_Manager.Instance.Prepare_turn_selection_options();
-
-                        Debug.LogError("Clicked_3");
-                       View.RPC(nameof(Roll_Dice), RpcTarget.AllBuffered, Random.Range(1, 7));
-
+                        nextTurn = 2;
                     }
                     else
                     {
-                        Debug.LogError("Dont touch");
+                        nextTurn = 3;
+                    }
+
+                    if (PhotonNetwork.LocalPlayer.ActorNumber == nextTurn)
+                    {
+                        view.RPC(nameof(Roll_Dice), RpcTarget.AllBuffered, Random.Range(1, 7));
                     }
                     break;
 
 
                 case PlayerType.RED:
 
-                    if (PhotonNetwork.LocalPlayer.ActorNumber == 2)//3
+                    if (PhotonNetwork.LocalPlayer.ActorNumber == 2)
                     {
-                        View.RPC(nameof(Roll_Dice), RpcTarget.AllBuffered, Random.Range(1, 7));
-                    }
-                    else
-                    {
-                        Debug.LogError("Dont touch");
+                        view.RPC(nameof(Roll_Dice), RpcTarget.AllBuffered, Random.Range(1, 7));
                     }
                     break;
 
                 case PlayerType.YELLOW:
+
                     if (PhotonNetwork.LocalPlayer.ActorNumber == 4)
                     {
-                      //  if (PhotonNetwork.IsMasterClient)
-                      //  {
-                      //      View.RPC(nameof(Roll_Dice), RpcTarget.AllBuffered);
-                      //  }
-                        View.RPC(nameof(Roll_Dice), RpcTarget.AllBuffered , Random.Range(1,7));
-                    }
-                    else
-                    {
-                        Debug.LogError("Dont touch");
+                        view.RPC(nameof(Roll_Dice), RpcTarget.AllBuffered, Random.Range(1, 7));
                     }
                     break;
             }

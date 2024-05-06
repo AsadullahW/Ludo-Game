@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Node : MonoBehaviour {
-
+public class Node : MonoBehaviour 
+{
     public bool allowsKilling = true;
     public bool interactable = false;
 
@@ -39,7 +39,6 @@ public class Node : MonoBehaviour {
         gm = GameManager.instance;
         defaultMaterial = GetComponent<MeshRenderer>().material;
         View = GetComponent<PhotonView>();
-
     }
 
     private void OnMouseDown()
@@ -68,8 +67,18 @@ public class Node : MonoBehaviour {
                     }
                     break;
                 case PlayerType.GREEN:
-                    Debug.Log("Green Actor Num" + PhotonNetwork.LocalPlayer.ActorNumber);
-                    if (PhotonNetwork.LocalPlayer.ActorNumber == 3)
+
+                    int nextTurn = 0;
+                    if (GameManager.is_2vs2)
+                    {
+                        nextTurn = 2;
+                    }
+                    else
+                    {
+                        nextTurn = 3;
+                    }
+
+                    if (PhotonNetwork.LocalPlayer.ActorNumber == nextTurn)
                     {
                         //chosenToken = bluePlayers[0];
                         Debug.LogError("open Green");
@@ -78,6 +87,7 @@ public class Node : MonoBehaviour {
                         View.RPC(nameof(New_One), RpcTarget.AllBuffered);
                     }
                     //chosenToken = greenPlayers[0];
+
                     break;
                 case PlayerType.RED:
 
@@ -120,7 +130,6 @@ public class Node : MonoBehaviour {
         {
             case PlayerType.BLUE:
 
-                Debug.Log("Node Blue");
                 if (bluePlayers.Count !=0)
                 {
                     chosenToken = bluePlayers[0];
@@ -138,7 +147,6 @@ public class Node : MonoBehaviour {
                 if(greenPlayers.Count != 0)
                 {
                     chosenToken = greenPlayers[0];
-                    Debug.LogError("Node green");
                     gm.StartCoroutine(gm.PlayWithChosenToken(chosenToken));
                 }
 
@@ -153,7 +161,6 @@ public class Node : MonoBehaviour {
                 if(redPlayers.Count != 0)
                 {
                     chosenToken = redPlayers[0];
-                    Debug.Log("Node Red");
                     gm.StartCoroutine(gm.PlayWithChosenToken(chosenToken));
                 }
 
@@ -167,7 +174,6 @@ public class Node : MonoBehaviour {
 
                 if(yellowPlayers.Count != 0)
                 {
-                    Debug.Log("Node Yellow");
                     chosenToken = yellowPlayers[0];
                     gm.StartCoroutine(gm.PlayWithChosenToken(chosenToken));
                 }

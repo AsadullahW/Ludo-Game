@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class Token {
-
+public class Token 
+{
     public Transform tokenTransform;
     public PlayerType tokenType;
     public Transform originalSpawnNode;
@@ -107,7 +107,6 @@ public class Token {
             }
         }
     }
-
 }
 
 public enum PlayerType {BLUE, GREEN, RED, YELLOW}

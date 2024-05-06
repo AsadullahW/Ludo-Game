@@ -6,7 +6,8 @@ using UnityEngine.UI;
 public class Generic_UI : MonoBehaviour
 {
     public Text Con_State;
-    public Text Player_no;
+    public Text player_No;
+    public Text playerLeft_Info;
     public static Generic_UI Instance;
     private void Awake()
     {

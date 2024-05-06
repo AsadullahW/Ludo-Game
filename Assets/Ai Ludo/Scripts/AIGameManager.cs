@@ -47,7 +47,7 @@ namespace com.bhambhoo.fairludo
             SetGameSpeed(speedMode);
             if(Generic_UI.Instance)
             {
-                Generic_UI.Instance.Player_no.gameObject.SetActive(false);
+                Generic_UI.Instance.playerLeft_Info.gameObject.SetActive(false);
             }
             
             MatchManager.Instance.StartMatch(selectedNumPlayers, selectedMatchType);

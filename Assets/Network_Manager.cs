@@ -79,7 +79,7 @@ public class Network_Manager : MonoBehaviourPunCallbacks
     }
     public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
     {
-        Debug.Log("Actor Num"+newPlayer.ActorNumber);
+
     }
 
     public void Set_Player_Level(LudoLevel level)
@@ -118,13 +118,6 @@ public class Network_Manager : MonoBehaviourPunCallbacks
             PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { TEAM, team } });
         }
 
-        //if (PhotonNetwork.LocalPlayer != null)
-        //{
-        //    Hashtable customProps = new Hashtable();
-        //    customProps[TEAM] = team;
-        //    PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { TEAM, team } });
-        //}
-
         //  PhotonNetwork.SetMasterClient(PhotonNetwork.LocalPlayer);
     }
     public void Prepare_team_selection_options()
@@ -132,7 +125,7 @@ public class Network_Manager : MonoBehaviourPunCallbacks
         if(PhotonNetwork.CurrentRoom.PlayerCount > 1)
         {
             Debug.Log(PhotonNetwork.CurrentRoom.PlayerCount);
-            Generic_UI.Instance.Player_no.text = "Player_no : " + PhotonNetwork.CurrentRoom.PlayerCount.ToString();
+            Generic_UI.Instance.playerLeft_Info.text = "Player_no : " + PhotonNetwork.CurrentRoom.PlayerCount.ToString();
 
            var firstPlayer = PhotonNetwork.CurrentRoom.GetPlayer(1);
           
@@ -144,10 +137,30 @@ public class Network_Manager : MonoBehaviourPunCallbacks
         }
         else
         {
-            Generic_UI.Instance.Player_no.text = "Player_no : 1";
+            Generic_UI.Instance.playerLeft_Info.text = "Player_no : 1";
+        }
+    }
+    public override void OnPlayerLeftRoom(Photon.Realtime.Player otherPlayer)
+    {
+       
+        if (otherPlayer == PhotonNetwork.LocalPlayer)
+        {
+            Debug.Log("You left the match.");
+        }
+        else
+        {
+            Debug.Log("Player " + otherPlayer.ActorNumber + " left the match.");
+            photonView.RPC("PlayerLeftMessage", RpcTarget.All, otherPlayer.ActorNumber);
         }
     }
 
+    [PunRPC]
+    void PlayerLeftMessage(string playerName)
+    {
+        Debug.Log(playerName + " left the match.");
+        Generic_UI.Instance.playerLeft_Info.text = "Player " + playerName + " left the match.";
+        Generic_UI.Instance.playerLeft_Info.gameObject.SetActive(true);
+    }
     public void Prepare_turn_selection_options()
     {
 
@@ -166,11 +179,6 @@ public class Network_Manager : MonoBehaviourPunCallbacks
                     ShareValues.Current_no = 0;
                 }
             }
-
-            //var Current_Player = PhotonNetwork.CurrentRoom.GetPlayer((int)(TeamColor)occupiedTam);
-
         }
-        // var Current_Player = PhotonNetwork.CurrentRoom.GetPlayer((int)(TeamColor)occupiedTam);
-
     }
 } 

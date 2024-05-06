@@ -9,20 +9,21 @@ public enum TeamColor
 {
     Blue = 1, Green = 2, Red = 3, Yellow = 4
 }
-public class MainMenuUI : MonoBehaviour {
-
+public class MainMenuUI : MonoBehaviour 
+{
     public static MainMenuUI Instance;
     public ScreenFader fader;
     public GameObject mainMenu;
     public GameObject Selection_Menu;
     public GameObject loadingPanel;
     public GameObject playMenu;
+    public GameObject playerSelectionPanel;
     public Dropdown Game_Level_Selection;
     public Text Waiting_Text;
 
     public Text WaitForOther;
 
-    public int totalPlayer = 4;
+    public int totalPlayer = 0;
     private void Awake()
     {
         Game_Level_Selection.AddOptions(Enum.GetNames(typeof(LudoLevel)).ToList());
@@ -48,31 +49,40 @@ public class MainMenuUI : MonoBehaviour {
     public void JoinMultiplayerLobby()
     {
         Selection_Menu.SetActive(false);
-        loadingPanel.SetActive(true);
-        StartCoroutine(ConnectToServer());
-
+        playerSelectionPanel.SetActive(true);
         Network_Manager.Instance.OnConnect_Mine();
     }
-    private IEnumerator ConnectToServer()
+    public void OnClick2v2Player()
     {
-        yield return new WaitForSeconds(1);
-        while (Generic_UI.Instance.Con_State.text != "Joined"  && totalPlayer.Equals(0))
-        {
-            yield return new WaitForSeconds(3);
-            Play4P();
-            yield return null;
-        }
+        GameManager.is_2vs2 = true;
+        totalPlayer = 2;
+        SetMatchAccordingToPlayers();
     }
-   
+    public void OnCLick3v3Players()
+    {
+        totalPlayer = 3; 
+        SetMatchAccordingToPlayers();
+    }
+    public void OnClick4v4Players()
+    {
+        totalPlayer = 4; 
+        SetMatchAccordingToPlayers();
+    }
+    public void SetMatchAccordingToPlayers()
+    {
+        playerSelectionPanel.SetActive(false);
+        loadingPanel.SetActive(true);
+        GameManager.NumberOfPlayers = totalPlayer; 
+        Generic_UI.Instance.playerLeft_Info.gameObject.SetActive(true);
+    }
     public void UpdatePlayerInfo()
     {
-        totalPlayer--;
+        totalPlayer -=1;
         WaitForOther.text = "Please wait for other " + totalPlayer + " players...";
         if(totalPlayer == 0)
         {
             WaitForOther.text = "Enter in match...";
-            Play4P();
-           // Destroy(Network_Manager.Instance.photonView);
+            StartMatchRoom();
         }
     }
 
@@ -89,6 +99,7 @@ public class MainMenuUI : MonoBehaviour {
 
     public void Play2P()
     {
+        GameManager.is_2vs2 = true;
         GameManager.NumberOfPlayers = 2;
        //Select_team(1);
         fader.FadeTo("MainScene");
@@ -107,15 +118,20 @@ public class MainMenuUI : MonoBehaviour {
 
     public void Play4P()
     {
-        Generic_UI.Instance.Player_no.gameObject.SetActive(true);
+        Generic_UI.Instance.playerLeft_Info.gameObject.SetActive(true);
         GameManager.NumberOfPlayers = 4;
         fader.FadeTo("MainScene");
     }
-
-    public void Back()
+    void StartMatchRoom()
     {
-        mainMenu.SetActive(true);
-        playMenu.SetActive(false);
+        Generic_UI.Instance.playerLeft_Info.gameObject.SetActive(true);
+        fader.FadeTo("MainScene");
+    }
+
+    public void OnClickBack()
+    {
+        Selection_Menu.SetActive(true);
+        playerSelectionPanel.SetActive(false);
     }
     public void OnConnect()
     {
