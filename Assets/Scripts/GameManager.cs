@@ -81,11 +81,17 @@ public class GameManager : MonoBehaviour {
     public GameObject yellowDeathEffectPrefab;
 
     // Life effects prefabs
-    public GameObject blueLifeEffectPrefab;
-    public GameObject greenLifeEffectPrefab;
-    public GameObject redLifeEffectPrefab;
-    public GameObject yellowLifeEffectPrefab;
+    public GameObject blueLifeEffectPrefab = null;
+    public GameObject greenLifeEffectPrefab = null;
+    public GameObject redLifeEffectPrefab = null;
+    public GameObject yellowLifeEffectPrefab = null;
 
+    // Token Holder
+
+    public Transform blueToken_Holder = null;
+    public Transform redToken_Holder = null;
+    public Transform greenToken_Holder = null;
+    public Transform yellowToken_Holder = null;
     
 
     PhotonView View;
@@ -163,6 +169,14 @@ public class GameManager : MonoBehaviour {
             }
         }
 
+    }
+
+    public void WinningMessageShow()
+    {
+        if(players.Count.Equals(1))
+        {
+            Debug.Log("Win Player is" + players[0].name);
+        }
     }
     [PunRPC]
     public void PlayWithChosenToken_func(Token token)
@@ -349,6 +363,8 @@ public class GameManager : MonoBehaviour {
     Player GetNextPlayer()
     {
         CurrentPlayerIndex++;
+        if (CurrentPlayerIndex >= players.Count)
+            CurrentPlayerIndex = 0;
         while (players[CurrentPlayerIndex].HasWon())
             CurrentPlayerIndex++;
         return players[CurrentPlayerIndex];
@@ -406,10 +422,50 @@ public class GameManager : MonoBehaviour {
     Player SetupPlayer(PlayerType _playerType, GameObject tokenPrefab, Transform[] _spawnNodes)
     {
         Transform[] tokenTransforms = new Transform[4];
-        for (int i = 0; i < 4; i++)
+
+        switch(_playerType)
         {
-            tokenTransforms[i] = Instantiate(tokenPrefab).transform;
+            case PlayerType.BLUE:
+
+                for (int i = 0; i < 4; i++)
+                {
+                    GameObject token = Instantiate(tokenPrefab,blueToken_Holder);
+                    tokenTransforms[i] = token.transform;
+                  //  tokenTransforms[i] = Instantiate(tokenPrefab).transform;
+                }
+                break;
+
+            case PlayerType.RED:
+
+                for (int i = 0; i < 4; i++)
+                {
+                    GameObject token = Instantiate(tokenPrefab, redToken_Holder);
+                    tokenTransforms[i] = token.transform;
+                }
+                break; 
+            
+            case PlayerType.GREEN:
+
+                for (int i = 0; i < 4; i++)
+                {
+                    GameObject token = Instantiate(tokenPrefab, greenToken_Holder);
+                    tokenTransforms[i] = token.transform;
+                }
+                break;
+
+            case PlayerType.YELLOW:
+
+                for (int i = 0; i < 4; i++)
+                {
+                    GameObject token = Instantiate(tokenPrefab, yellowToken_Holder);
+                    tokenTransforms[i] = token.transform;
+                    //  tokenTransforms[i] = Instantiate(tokenPrefab).transform;
+                }
+                break;
+
+
         }
+       
         return new Player(_playerType, _spawnNodes, tokenTransforms);
     }
 

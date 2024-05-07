@@ -58,6 +58,10 @@ MonoBehaviour:
   - WaitForOtherPlayer
   - SetMatchAccordingToPlayers
   - PlayerLeftMessage
+  - OFFObject
+  - DisableObj
+  - RemovePlayerFromMatch
+  - RemovePlayerByName
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

@@ -2,15 +2,16 @@
 using UnityEngine;
 using System.Collections;
 using System;
-using static com.bhambhoo.fairludo.Constants;
-public class Player 
+
+[Serializable]
+public class Player
 {
     public string name;
     public Token[] tokens;
     public PlayerType playerType;
 
-   public Player(PlayerType _playerType, Transform[] spawnNodes, Transform[] tokenTransforms)
-   {
+    public Player(PlayerType _playerType, Transform[] spawnNodes, Transform[] tokenTransforms)
+    {
         playerType = _playerType;
 
         switch (playerType)
@@ -29,13 +30,13 @@ public class Player
                 break;
         }
 
-         tokens = new Token[4];
+        tokens = new Token[4];
 
         for (int i = 0; i < 4; i++)
         {
             tokens[i] = new Token(playerType, spawnNodes[i], tokenTransforms[i]);
         }
-   }
+    }
 
     public bool HasWon()
     {
@@ -45,8 +46,8 @@ public class Player
                 return false;
         }
         return true;
-    }
 
+    }
 }
 
    

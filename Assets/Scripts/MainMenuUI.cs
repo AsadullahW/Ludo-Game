@@ -73,7 +73,7 @@ public class MainMenuUI : MonoBehaviour
         playerSelectionPanel.SetActive(false);
         loadingPanel.SetActive(true);
         GameManager.NumberOfPlayers = totalPlayer; 
-        Generic_UI.Instance.playerLeft_Info.gameObject.SetActive(true);
+        Generic_UI.Instance.player_No.gameObject.SetActive(true);
     }
     public void UpdatePlayerInfo()
     {
@@ -118,13 +118,13 @@ public class MainMenuUI : MonoBehaviour
 
     public void Play4P()
     {
-        Generic_UI.Instance.playerLeft_Info.gameObject.SetActive(true);
+        Generic_UI.Instance.player_No.gameObject.SetActive(true);
         GameManager.NumberOfPlayers = 4;
         fader.FadeTo("MainScene");
     }
     void StartMatchRoom()
     {
-        Generic_UI.Instance.playerLeft_Info.gameObject.SetActive(true);
+        Generic_UI.Instance.player_No.gameObject.SetActive(true);
         fader.FadeTo("MainScene");
     }
 
