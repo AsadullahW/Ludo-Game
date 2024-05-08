@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.PostProcessing;
 using UnityEngine.Audio;
+using Photon.Pun;
 
 public class PauseMenuUI : MonoBehaviour {
 
@@ -33,6 +34,10 @@ public class PauseMenuUI : MonoBehaviour {
 
     public void Menu()
     {
+        if (PhotonNetwork.InRoom)
+        {
+            PhotonNetwork.LeaveRoom();
+        }
         Generic_UI.Instance.player_No.gameObject.SetActive(false);
         fader.FadeTo("MainMenu");
     }

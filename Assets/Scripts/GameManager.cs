@@ -177,6 +177,7 @@ public class GameManager : MonoBehaviour {
         {
             Debug.Log("Win Player is" + players[0].name);
         }
+
     }
     [PunRPC]
     public void PlayWithChosenToken_func(Token token)
@@ -369,7 +370,16 @@ public class GameManager : MonoBehaviour {
             CurrentPlayerIndex++;
         return players[CurrentPlayerIndex];
     }
-
+    public Player RefreshNextPlayerState()
+    {
+        CurrentPlayerIndex++;
+        CurrentPlayerIndex--;
+        if (CurrentPlayerIndex >= players.Count)
+            CurrentPlayerIndex = 0;
+        while (players[CurrentPlayerIndex].HasWon())
+            CurrentPlayerIndex++;
+        return players[CurrentPlayerIndex];
+    }
     void SetupGame()
     {
         switch (NumberOfPlayers)

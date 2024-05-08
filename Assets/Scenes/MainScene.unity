@@ -22622,7 +22622,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1585596286
 RectTransform:
   m_ObjectHideFlags: 0
@@ -25163,6 +25163,11 @@ MonoBehaviour:
   _currentPlayerIndex: 0
   minRangeError: 0.02
   smoothness: 10
+  players: []
+  currentPlayer:
+    name: 
+    tokens: []
+    playerType: 0
   waitingForRoll: 1
   dice: {fileID: 1317707775}
   winningUI: {fileID: 242058377}

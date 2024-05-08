@@ -1,8 +1,11 @@
 using Photon.Pun;
+using Photon.Realtime;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Network_Manager : MonoBehaviourPunCallbacks
 {
@@ -34,16 +37,19 @@ public class Network_Manager : MonoBehaviourPunCallbacks
     }
     public void OnConnect_Mine()
     {
-        if (PhotonNetwork.IsConnected)
-        {
-            PhotonNetwork.JoinRandomRoom(new ExitGames.Client.Photon.Hashtable() { { LEVEL, Player_Level } }, MAx_Players);
-        }
-        else
+        if (!PhotonNetwork.IsConnected)
         {
             PhotonNetwork.ConnectUsingSettings();
         }
+        //if (PhotonNetwork.IsConnected)
+        //{
+        //    PhotonNetwork.JoinRandomRoom(new ExitGames.Client.Photon.Hashtable() { { LEVEL, Player_Level } }, MAx_Players);
+        //}
+        //else
+        //{
+        //    PhotonNetwork.ConnectUsingSettings();
+        //}
     }
-   
     private void Update()
     {
         Generic_UI.Instance.Con_State.text =  PhotonNetwork.NetworkClientState.ToString();
@@ -60,14 +66,23 @@ public class Network_Manager : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.JoinRandomRoom(new ExitGames.Client.Photon.Hashtable() { { LEVEL, Player_Level } }, MAx_Players);
     }
+
+
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
         PhotonNetwork.CreateRoom(null , new Photon.Realtime.RoomOptions
         {
-            CustomRoomPropertiesForLobby = new string[] {LEVEL},
+        CustomRoomPropertiesForLobby = new string[] {LEVEL},
             MaxPlayers = MAx_Players,
             CustomRoomProperties = new ExitGames.Client.Photon.Hashtable() { { LEVEL, Player_Level } },
         });
+    }
+    public override void OnCreatedRoom()
+    {
+        if(!PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.JoinRoom(PhotonNetwork.CurrentRoom.Name);
+        }
     }
     public override void OnJoinedRoom()
     {
@@ -102,22 +117,18 @@ public class Network_Manager : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.LocalPlayer.ActorNumber == 1)
         {
-            Debug.Log("Set the cutom properties player" + PhotonNetwork.LocalPlayer.ActorNumber);
             PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { TEAM, team } });
         }
         else if (PhotonNetwork.LocalPlayer.ActorNumber == 2)
         {
-            Debug.Log("Set the cutom properties player" + PhotonNetwork.LocalPlayer.ActorNumber);
             PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { TEAM, team } });
         }
         else if (PhotonNetwork.LocalPlayer.ActorNumber == 3)
         {
-            Debug.Log("Set the cutom properties player" + PhotonNetwork.LocalPlayer.ActorNumber);
             PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { TEAM, team } });
         }
         else if (PhotonNetwork.LocalPlayer.ActorNumber == 4)
         {
-            Debug.Log("Set the cutom properties player" + PhotonNetwork.LocalPlayer.ActorNumber);
             PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { TEAM, team } });
         }
 
@@ -127,7 +138,6 @@ public class Network_Manager : MonoBehaviourPunCallbacks
     {
         if(PhotonNetwork.CurrentRoom.PlayerCount > 1)
         {
-            Debug.Log(PhotonNetwork.CurrentRoom.PlayerCount);
             Generic_UI.Instance.player_No.text = "Player_no : " + PhotonNetwork.CurrentRoom.PlayerCount.ToString();
 
            var firstPlayer = PhotonNetwork.CurrentRoom.GetPlayer(1);
@@ -264,6 +274,7 @@ public class Network_Manager : MonoBehaviourPunCallbacks
                         {
                             playerRemove = false;
                             IdentifyExitPlayer("Red");
+
                         }
                     }
                     break;
@@ -296,6 +307,7 @@ public class Network_Manager : MonoBehaviourPunCallbacks
                     {
                         playerRemove = false;
                         IdentifyExitPlayer("Green");
+
                     }
                     break;
 
@@ -327,27 +339,27 @@ public class Network_Manager : MonoBehaviourPunCallbacks
                     if(playerRemove)
                     {
                         playerRemove = false;
-
                         IdentifyExitPlayer("Yellow");
                     }
                     break;
             }
         }
     }
-
     void IdentifyExitPlayer(string playerName)
     {
         for (int i = 0; i < GameManager.instance.players.Count; i++)
         {
             if (GameManager.instance.players[i].name.Equals(playerName))
             {
-                view.RPC(nameof(RemovePlayerByName), RpcTarget.AllBuffered, GameManager.instance.players[i].name);
+                
+                view.RPC(nameof(RemovePlayerByName), RpcTarget.AllBuffered, GameManager.instance.players[i].name); 
                 break;
             }
         }
 
         GameManager.instance.WinningMessageShow();
     }
+
     [PunRPC]
     public void RemovePlayerByName(string playerName)
     {
@@ -362,6 +374,11 @@ public class Network_Manager : MonoBehaviourPunCallbacks
     void RemovePlayerFromMatch(string playerName)
     {
         Player playerToRemove = GameManager.instance.players.Find(player => player.name == playerName);
+        if (GameManager.instance.currentPlayer.name.Equals(playerName))
+        {
+            GameManager.instance.currentPlayer = GameManager.instance.RefreshNextPlayerState();
+        }
+
         if (playerToRemove != null)
         {
             GameManager.instance.players.Remove(playerToRemove);
