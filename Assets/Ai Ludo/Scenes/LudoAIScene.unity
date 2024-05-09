@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.5132229, g: 0.46542984, b: 0.46542984, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -9934,7 +9934,7 @@ MonoBehaviour:
   DelayBetweenTokenMoves: 0.15
   speedMode: 0
   selectedMatchType: 0
-  selectedNumPlayers: 2
+  selectedNumPlayers: 4
   p1TokensCount: 0
   p2TokensCount: 0
   p3TokensCount: 0

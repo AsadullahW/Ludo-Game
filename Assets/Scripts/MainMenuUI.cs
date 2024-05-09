@@ -18,6 +18,7 @@ public class MainMenuUI : MonoBehaviour
     public GameObject loadingPanel;
     public GameObject playMenu;
     public GameObject playerSelectionPanel;
+    public GameObject selectedAiPlayerPanel;
     public Dropdown Game_Level_Selection;
     public Text Waiting_Text;
 
@@ -91,6 +92,8 @@ public class MainMenuUI : MonoBehaviour
         Selection_Menu.SetActive(false);
         playMenu.SetActive(true);
     }
+
+   
     public void Exit()
     {
         Debug.Log("Quitting...");
@@ -107,9 +110,26 @@ public class MainMenuUI : MonoBehaviour
 
     public void PlayWithAI()
     {
-        fader.FadeTo("LudoAIScene");
+        Selection_Menu.SetActive(false);
+        selectedAiPlayerPanel.SetActive(true);
     }
-
+    public void OnClick2vs2AiPlayers()
+    {
+        LoadAiMatch(2);
+    }
+    public void OnClick3vs3AiPlayers()
+    {
+        LoadAiMatch(3);
+    }
+    public void OnClick4vs4AiPlayers()
+    {
+        LoadAiMatch(4);
+    }
+    void LoadAiMatch(int totalPlayer)
+    {
+        fader.FadeTo("LudoAIScene");
+        ShareValues.TotalAiPlayers = totalPlayer;
+    }
     public void Play3P()
     {
         GameManager.NumberOfPlayers = 3;
@@ -138,22 +158,21 @@ public class MainMenuUI : MonoBehaviour
         Network_Manager.Instance.Set_Player_Level((LudoLevel)Game_Level_Selection.value);
     }
 
-
     public void Select_team(int team)
     { 
         Network_Manager.Instance.select_team(team);
     }
     public void Restricted_Team_Choice(TeamColor occpiedTeam)
     {
-       // Button buttonToDeactivate = occpiedTeam == TeamColor.White ? whiteTeamButtonButton : blackTeamButtonButton;
-       // buttonToDeactivate.interactable = false;
+        // Button buttonToDeactivate = occpiedTeam == TeamColor.White ? whiteTeamButtonButton : blackTeamButtonButton;
+        // buttonToDeactivate.interactable = false;
 
-       if(occpiedTeam == TeamColor.Blue)
-       {
+        if (occpiedTeam == TeamColor.Blue)
+        {
             ShareValues.Color_No = 1;
-            
-       }
-       else if (occpiedTeam == TeamColor.Green)
+
+        }
+        else if (occpiedTeam == TeamColor.Green)
         {
             ShareValues.Color_No = 3;
         }
@@ -166,7 +185,6 @@ public class MainMenuUI : MonoBehaviour
             ShareValues.Color_No = 4;
         }
     }
-
 }
 
 

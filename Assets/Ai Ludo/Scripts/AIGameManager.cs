@@ -49,7 +49,7 @@ namespace com.bhambhoo.fairludo
             {
                 Generic_UI.Instance.player_No.gameObject.SetActive(false);
             }
-            
+            selectedNumPlayers = (byte)ShareValues.TotalAiPlayers;
             MatchManager.Instance.StartMatch(selectedNumPlayers, selectedMatchType);
 
             // Testing

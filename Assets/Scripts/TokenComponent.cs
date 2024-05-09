@@ -63,13 +63,11 @@ public class TokenComponent : MonoBehaviour {
                 }
                 if (PhotonNetwork.LocalPlayer.ActorNumber == move && View.IsMine)
                 {
-                    Debug.Log("Click On Green");
                     photonView.RPC(nameof(OnMouse_Down), RpcTarget.All);
                 }
                 else
                 {
                     ShareValues.Color_No = 5;
-                    Debug.LogError("Dont touch");
                 }
                 break;
 
@@ -77,13 +75,11 @@ public class TokenComponent : MonoBehaviour {
 
                 if (PhotonNetwork.LocalPlayer.ActorNumber == 2 && View.IsMine)
                 {
-                    Debug.Log("Click On Red");
                     photonView.RPC(nameof(OnMouse_Down), RpcTarget.All);
                 }
                 else
                 {
                     ShareValues.Color_No = 5;
-                    Debug.LogError("Dont touch");
                 }
                 break;
 
@@ -91,13 +87,11 @@ public class TokenComponent : MonoBehaviour {
 
                 if (PhotonNetwork.LocalPlayer.ActorNumber == 4 && View.IsMine)
                 {
-                    Debug.Log("Click On Yellow");
                     photonView.RPC(nameof(OnMouse_Down), RpcTarget.All);
                 }
                 else
                 {
                     ShareValues.Color_No = 5;
-                    Debug.LogError("Dont touch");
                 }
                 break;
         }
@@ -178,4 +172,3 @@ public class TokenComponent : MonoBehaviour {
         isColliding = false;
     }
 }
-   

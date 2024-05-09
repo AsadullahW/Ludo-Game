@@ -5,7 +5,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 public class Network_Manager : MonoBehaviourPunCallbacks
 {
@@ -181,7 +180,6 @@ public class Network_Manager : MonoBehaviourPunCallbacks
                 
                 case 1:
 
-
                     for (int i = 0; i < GameManager.instance.blueSpawnNodesTransforms.Length; i++)
                     {
                         GameManager.instance.blueSpawnNodesTransforms[i].gameObject.SetActive(false);
@@ -351,12 +349,10 @@ public class Network_Manager : MonoBehaviourPunCallbacks
         {
             if (GameManager.instance.players[i].name.Equals(playerName))
             {
-                
                 view.RPC(nameof(RemovePlayerByName), RpcTarget.AllBuffered, GameManager.instance.players[i].name); 
                 break;
             }
         }
-
         GameManager.instance.WinningMessageShow();
     }
 
@@ -386,8 +382,6 @@ public class Network_Manager : MonoBehaviourPunCallbacks
     }
     public void Prepare_turn_selection_options()
     {
-
-       // set_team();
         var Current_Player = PhotonNetwork.CurrentRoom.GetPlayer(ShareValues.Current_no);
 
         if (Current_Player.CustomProperties.ContainsKey(TEAM))

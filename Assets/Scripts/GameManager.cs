@@ -394,7 +394,9 @@ public class GameManager : MonoBehaviour {
 
                 players.Add(SetupPlayer(PlayerType.BLUE, blueTokenPrefab, blueSpawnNodesTransforms));
                 players.Add(SetupPlayer(PlayerType.GREEN, greenTokenPrefab, greenSpawnNodesTransforms));
+
                 break;
+
             case 3:
 
                 for (int i = 0; i < blueSpawnNodesTransforms.Length; i++)
@@ -407,7 +409,9 @@ public class GameManager : MonoBehaviour {
                 players.Add(SetupPlayer(PlayerType.BLUE, blueTokenPrefab, blueSpawnNodesTransforms));
                 players.Add(SetupPlayer(PlayerType.RED, redTokenPrefab, redSpawnNodesTransforms));
                 players.Add(SetupPlayer(PlayerType.GREEN, greenTokenPrefab, greenSpawnNodesTransforms));
+
                 break;
+
             case 4:
 
                 for (int i = 0; i < blueSpawnNodesTransforms.Length; i++)
@@ -422,6 +426,7 @@ public class GameManager : MonoBehaviour {
                 players.Add(SetupPlayer(PlayerType.RED, redTokenPrefab, redSpawnNodesTransforms));
                 players.Add(SetupPlayer(PlayerType.GREEN, greenTokenPrefab, greenSpawnNodesTransforms));
                 players.Add(SetupPlayer(PlayerType.YELLOW, yellowTokenPrefab, yellowSpawnNodesTransforms));
+
                 break;
         }
         //   CurrentPlayerIndex = Random.Range(0, NumberOfPlayers);
@@ -441,7 +446,6 @@ public class GameManager : MonoBehaviour {
                 {
                     GameObject token = Instantiate(tokenPrefab,blueToken_Holder);
                     tokenTransforms[i] = token.transform;
-                  //  tokenTransforms[i] = Instantiate(tokenPrefab).transform;
                 }
                 break;
 
@@ -469,7 +473,6 @@ public class GameManager : MonoBehaviour {
                 {
                     GameObject token = Instantiate(tokenPrefab, yellowToken_Holder);
                     tokenTransforms[i] = token.transform;
-                    //  tokenTransforms[i] = Instantiate(tokenPrefab).transform;
                 }
                 break;
 
