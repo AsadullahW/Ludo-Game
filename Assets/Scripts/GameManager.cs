@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
+using System.Linq.Expressions;
 public class GameManager : MonoBehaviour {
 
     #region singleton
@@ -372,12 +373,17 @@ public class GameManager : MonoBehaviour {
     }
     public Player RefreshNextPlayerState()
     {
-        CurrentPlayerIndex++;
-        CurrentPlayerIndex--;
-        if (CurrentPlayerIndex >= players.Count)
-            CurrentPlayerIndex = 0;
-        while (players[CurrentPlayerIndex].HasWon())
+        try
+        {
             CurrentPlayerIndex++;
+            CurrentPlayerIndex--;
+            if (CurrentPlayerIndex >= players.Count)
+                CurrentPlayerIndex = 0;
+            while (players[CurrentPlayerIndex].HasWon())
+                CurrentPlayerIndex++;
+        }
+        catch { }
+
         return players[CurrentPlayerIndex];
     }
     void SetupGame()

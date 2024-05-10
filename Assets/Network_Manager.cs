@@ -11,10 +11,9 @@ public class Network_Manager : MonoBehaviourPunCallbacks
     public LudoLevel Player_Level;
     private const string LEVEL = "level";
     private const string TEAM = "";
-    public const int MAx_Players = 4;
+    public const int MAx_Players = 0;
     public static Network_Manager Instance;
     public int Active = 0;
-
     private bool playerRemove = false;
 
     private PhotonView view;
@@ -36,18 +35,12 @@ public class Network_Manager : MonoBehaviourPunCallbacks
     }
     public void OnConnect_Mine()
     {
+        Debug.Log("Max Player" + MainMenuUI.Instance.roomCapcity);
+
         if (!PhotonNetwork.IsConnected)
         {
             PhotonNetwork.ConnectUsingSettings();
         }
-        //if (PhotonNetwork.IsConnected)
-        //{
-        //    PhotonNetwork.JoinRandomRoom(new ExitGames.Client.Photon.Hashtable() { { LEVEL, Player_Level } }, MAx_Players);
-        //}
-        //else
-        //{
-        //    PhotonNetwork.ConnectUsingSettings();
-        //}
     }
     private void Update()
     {
@@ -63,18 +56,47 @@ public class Network_Manager : MonoBehaviourPunCallbacks
 
     public override void OnConnectedToMaster()
     {
-        PhotonNetwork.JoinRandomRoom(new ExitGames.Client.Photon.Hashtable() { { LEVEL, Player_Level } }, MAx_Players);
+        ExitGames.Client.Photon.Hashtable customRoomProperties = new ExitGames.Client.Photon.Hashtable();
+        if (MainMenuUI.Instance._2v2)
+        {
+            customRoomProperties["GameMode"] = "2v2";
+        }
+        else if (MainMenuUI.Instance._3v3)
+        {
+            customRoomProperties["GameMode"] = "3v3";
+        }
+        else
+        {
+            customRoomProperties["GameMode"] = "4v4";
+
+        }
+        PhotonNetwork.JoinRandomRoom(customRoomProperties, (byte)MainMenuUI.Instance.roomCapcity);
+        //   PhotonNetwork.JoinRandomRoom(new ExitGames.Client.Photon.Hashtable() { { LEVEL, Player_Level } }, (byte)MAx_Players);
     }
 
 
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
-        PhotonNetwork.CreateRoom(null , new Photon.Realtime.RoomOptions
+        RoomOptions roomOptions = new RoomOptions();
+        roomOptions.CustomRoomPropertiesForLobby = new string[] { LEVEL, "GameMode" };
+        roomOptions.MaxPlayers = MainMenuUI.Instance.roomCapcity;
+        ExitGames.Client.Photon.Hashtable customRoomProperties = new ExitGames.Client.Photon.Hashtable();
+        if (MainMenuUI.Instance._2v2)
         {
-        CustomRoomPropertiesForLobby = new string[] {LEVEL},
-            MaxPlayers = MAx_Players,
-            CustomRoomProperties = new ExitGames.Client.Photon.Hashtable() { { LEVEL, Player_Level } },
-        });
+            customRoomProperties["GameMode"] = "2v2";
+        }
+        else if (MainMenuUI.Instance._3v3)
+        {
+            customRoomProperties["GameMode"] = "3v3";
+        }
+        else
+        {
+            customRoomProperties["GameMode"] = "4v4";
+        }
+
+        roomOptions.CustomRoomProperties = customRoomProperties;
+
+        PhotonNetwork.CreateRoom(null, roomOptions);
     }
     public override void OnCreatedRoom()
     {

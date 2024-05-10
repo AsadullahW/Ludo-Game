@@ -25,6 +25,10 @@ public class MainMenuUI : MonoBehaviour
     public Text WaitForOther;
 
     public int totalPlayer = 0;
+    public int roomCapcity = 0;
+
+    public bool _2v2 = false;
+    public bool _3v3 = false;
     private void Awake()
     {
         Game_Level_Selection.AddOptions(Enum.GetNames(typeof(LudoLevel)).ToList());
@@ -51,29 +55,34 @@ public class MainMenuUI : MonoBehaviour
     {
         Selection_Menu.SetActive(false);
         playerSelectionPanel.SetActive(true);
-        Network_Manager.Instance.OnConnect_Mine();
     }
     public void OnClick2v2Player()
     {
+        _2v2 = true;
         GameManager.is_2vs2 = true;
         totalPlayer = 2;
+        Network_Manager.Instance.OnConnect_Mine();
         SetMatchAccordingToPlayers();
     }
     public void OnCLick3v3Players()
     {
-        totalPlayer = 3; 
+        _3v3 = true;
+        totalPlayer = 3;
+        Network_Manager.Instance.OnConnect_Mine();
         SetMatchAccordingToPlayers();
     }
     public void OnClick4v4Players()
     {
-        totalPlayer = 4; 
+        totalPlayer = 4;
+        Network_Manager.Instance.OnConnect_Mine();
         SetMatchAccordingToPlayers();
     }
     public void SetMatchAccordingToPlayers()
     {
         playerSelectionPanel.SetActive(false);
         loadingPanel.SetActive(true);
-        GameManager.NumberOfPlayers = totalPlayer; 
+        roomCapcity = totalPlayer;
+        GameManager.NumberOfPlayers = totalPlayer;
         Generic_UI.Instance.player_No.gameObject.SetActive(true);
     }
     public void UpdatePlayerInfo()
