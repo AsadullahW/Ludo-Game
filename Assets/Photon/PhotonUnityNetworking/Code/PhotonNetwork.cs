@@ -87,7 +87,7 @@ namespace Photon.Pun
                 NetworkingClient.AppVersion = string.Format("{0}_{1}", value, PhotonNetwork.PunVersion);
             }
         }
-
+        public static int totalPlayers;
         private static string gameVersion;
 
         /// <summary>Sent to Photon Server to specify the "Virtual AppId".</summary>

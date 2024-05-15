@@ -2406,6 +2406,9 @@ MonoBehaviour:
   Waiting_Text: {fileID: 922045601}
   WaitForOther: {fileID: 2096945343}
   totalPlayer: 0
+  roomCapcity: 0
+  _2v2: 0
+  _3v3: 0
 --- !u!1001 &245097398
 PrefabInstance:
   m_ObjectHideFlags: 0

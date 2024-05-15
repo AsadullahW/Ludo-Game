@@ -41,7 +41,6 @@ namespace com.bhambhoo.fairludo
             Instance = this;
         }
 
-        // Start is called before the first frame update
         void Start()
         {
             SetGameSpeed(speedMode);
@@ -57,7 +56,6 @@ namespace com.bhambhoo.fairludo
 
         [Header("Press F to search for tokens wrt player 1")]
         public byte waypointIndexToSearch = 0;
-        // Update is called once per frame
         void Update()
         {
             if (Input.GetKeyDown(KeyCode.Space))

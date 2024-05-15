@@ -1,6 +1,8 @@
 ﻿using Photon.Pun;
+using Photon.Realtime;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -29,6 +31,8 @@ public class MainMenuUI : MonoBehaviour
 
     public bool _2v2 = false;
     public bool _3v3 = false;
+
+   
     private void Awake()
     {
         Game_Level_Selection.AddOptions(Enum.GetNames(typeof(LudoLevel)).ToList());
@@ -41,6 +45,8 @@ public class MainMenuUI : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+        totalPlayer = 0;
+        PhotonNetwork.Disconnect();
     }
     private void Update()
     {
@@ -88,6 +94,7 @@ public class MainMenuUI : MonoBehaviour
     public void UpdatePlayerInfo()
     {
         totalPlayer -=1;
+        if(Waiting_Text != null)
         WaitForOther.text = "Please wait for other " + totalPlayer + " players...";
         if(totalPlayer == 0)
         {

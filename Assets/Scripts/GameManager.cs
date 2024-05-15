@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
-using System.Linq.Expressions;
 public class GameManager : MonoBehaviour {
 
     #region singleton
@@ -51,6 +50,9 @@ public class GameManager : MonoBehaviour {
     public float minRangeError;
     public float smoothness;
 
+    public static int totalPlayerInMatch = 0;
+
+
     private bool hasKilled = false;
 
     public List<Player> players = new List<Player>();
@@ -63,42 +65,42 @@ public class GameManager : MonoBehaviour {
     public WinningUI winningUI;
     public GameObject gameOverUI;
 
-    // Token prefabs
-    public GameObject blueTokenPrefab;
-    public GameObject greenTokenPrefab;
-    public GameObject redTokenPrefab;
-    public GameObject yellowTokenPrefab;
+    [Header("Token Prefab")]
+    public GameObject blueTokenPrefab = null;
+    public GameObject greenTokenPrefab = null;
+    public GameObject redTokenPrefab = null;
+    public GameObject yellowTokenPrefab = null;
 
-    // All spawnNodes as transforms
-    public Transform[] blueSpawnNodesTransforms;
-    public Transform[] greenSpawnNodesTransforms;
-    public Transform[] redSpawnNodesTransforms;
-    public Transform[] yellowSpawnNodesTransforms;
+    [Header("Token Spawn")]
+    public Transform[] blueSpawnNodesTransforms = null;
+    public Transform[] greenSpawnNodesTransforms = null;
+    public Transform[] redSpawnNodesTransforms = null;
+    public Transform[] yellowSpawnNodesTransforms = null;
 
-    // Death effects prefabs
-    public GameObject blueDeathEffectPrefab;
-    public GameObject greenDeathEffectPrefab;
-    public GameObject redDeathEffectPrefab;
-    public GameObject yellowDeathEffectPrefab;
+    [Header("Death effects prefabs")]
+    public GameObject blueDeathEffectPrefab = null;
+    public GameObject greenDeathEffectPrefab = null;
+    public GameObject redDeathEffectPrefab = null;
+    public GameObject yellowDeathEffectPrefab = null;
 
-    // Life effects prefabs
+    [Header("Life effects prefabs")]
     public GameObject blueLifeEffectPrefab = null;
     public GameObject greenLifeEffectPrefab = null;
     public GameObject redLifeEffectPrefab = null;
     public GameObject yellowLifeEffectPrefab = null;
 
-    // Token Holder
-
+    [Header("Token Holder")]
     public Transform blueToken_Holder = null;
     public Transform redToken_Holder = null;
     public Transform greenToken_Holder = null;
     public Transform yellowToken_Holder = null;
     
 
-    PhotonView View;
+    private PhotonView View;
 
     private void Start()
     {
+        totalPlayerInMatch = NumberOfPlayers;
         SetupGame();
         MainMenuUI.Instance.Select_team(1);
         View = GetComponent<PhotonView>();
@@ -373,17 +375,8 @@ public class GameManager : MonoBehaviour {
     }
     public Player RefreshNextPlayerState()
     {
-        try
-        {
-            CurrentPlayerIndex++;
-            CurrentPlayerIndex--;
-            if (CurrentPlayerIndex >= players.Count)
-                CurrentPlayerIndex = 0;
-            while (players[CurrentPlayerIndex].HasWon())
-                CurrentPlayerIndex++;
-        }
-        catch { }
-
+        if (CurrentPlayerIndex >= players.Count)
+            CurrentPlayerIndex = 0;
         return players[CurrentPlayerIndex];
     }
     void SetupGame()
@@ -481,7 +474,6 @@ public class GameManager : MonoBehaviour {
                     tokenTransforms[i] = token.transform;
                 }
                 break;
-
 
         }
        

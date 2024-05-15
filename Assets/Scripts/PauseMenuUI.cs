@@ -6,7 +6,8 @@ using UnityEngine.PostProcessing;
 using UnityEngine.Audio;
 using Photon.Pun;
 
-public class PauseMenuUI : MonoBehaviour {
+public class PauseMenuUI : MonoBehaviour 
+{
 
     public ScreenFader fader;
     public Ground ground;
@@ -36,9 +37,20 @@ public class PauseMenuUI : MonoBehaviour {
     {
         if (PhotonNetwork.InRoom)
         {
+            
+            GameManager.NumberOfPlayers--;
+            GameManager.totalPlayerInMatch = GameManager.NumberOfPlayers;
+
             PhotonNetwork.LeaveRoom();
+            PhotonNetwork.LeaveLobby();
+
+            PhotonNetwork.AutomaticallySyncScene = false;
+            Destroy(Network_Manager.Instance.gameObject, 0.5f);
+          
+           
         }
         Generic_UI.Instance.player_No.gameObject.SetActive(false);
+        Generic_UI.Instance.player_No.text = string.Empty;
         fader.FadeTo("MainMenu");
     }
 

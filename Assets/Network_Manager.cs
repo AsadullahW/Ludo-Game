@@ -12,9 +12,12 @@ public class Network_Manager : MonoBehaviourPunCallbacks
     private const string LEVEL = "level";
     private const string TEAM = "";
     public const int MAx_Players = 0;
+
     public static Network_Manager Instance;
     public int Active = 0;
     private bool playerRemove = false;
+
+    
 
     private PhotonView view;
     private void Awake()
@@ -30,13 +33,13 @@ public class Network_Manager : MonoBehaviourPunCallbacks
         }
 
         DontDestroyOnLoad(gameObject);
+
         PhotonNetwork.AutomaticallySyncScene = true;
+
         view = GetComponent<PhotonView>();
     }
     public void OnConnect_Mine()
     {
-        Debug.Log("Max Player" + MainMenuUI.Instance.roomCapcity);
-
         if (!PhotonNetwork.IsConnected)
         {
             PhotonNetwork.ConnectUsingSettings();
@@ -68,19 +71,18 @@ public class Network_Manager : MonoBehaviourPunCallbacks
         else
         {
             customRoomProperties["GameMode"] = "4v4";
-
         }
+
         PhotonNetwork.JoinRandomRoom(customRoomProperties, (byte)MainMenuUI.Instance.roomCapcity);
-        //   PhotonNetwork.JoinRandomRoom(new ExitGames.Client.Photon.Hashtable() { { LEVEL, Player_Level } }, (byte)MAx_Players);
     }
-
-
+    
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
         RoomOptions roomOptions = new RoomOptions();
         roomOptions.CustomRoomPropertiesForLobby = new string[] { LEVEL, "GameMode" };
         roomOptions.MaxPlayers = MainMenuUI.Instance.roomCapcity;
         ExitGames.Client.Photon.Hashtable customRoomProperties = new ExitGames.Client.Photon.Hashtable();
+
         if (MainMenuUI.Instance._2v2)
         {
             customRoomProperties["GameMode"] = "2v2";
@@ -94,6 +96,7 @@ public class Network_Manager : MonoBehaviourPunCallbacks
             customRoomProperties["GameMode"] = "4v4";
         }
 
+        
         roomOptions.CustomRoomProperties = customRoomProperties;
 
         PhotonNetwork.CreateRoom(null, roomOptions);
@@ -114,11 +117,12 @@ public class Network_Manager : MonoBehaviourPunCallbacks
     [PunRPC]
     public void WaitForOtherPlayer()
     {
+      
         MainMenuUI.Instance.UpdatePlayerInfo();
     }
     public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
     {
-
+       
     }
 
     public void Set_Player_Level(LudoLevel level)
@@ -126,6 +130,7 @@ public class Network_Manager : MonoBehaviourPunCallbacks
         Player_Level = level;
         PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { LEVEL, level } });
     }
+
     public void set_team()
     {
         int team = 0;
@@ -134,6 +139,7 @@ public class Network_Manager : MonoBehaviourPunCallbacks
             PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { TEAM, team } });
         }
     }   
+
     public void select_team(int team)
     {
         if (PhotonNetwork.LocalPlayer.ActorNumber == 1)
@@ -152,9 +158,8 @@ public class Network_Manager : MonoBehaviourPunCallbacks
         {
             PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { TEAM, team } });
         }
-
-        //  PhotonNetwork.SetMasterClient(PhotonNetwork.LocalPlayer);
     }
+
     public void Prepare_team_selection_options()
     {
         if(PhotonNetwork.CurrentRoom.PlayerCount > 1)
@@ -174,20 +179,29 @@ public class Network_Manager : MonoBehaviourPunCallbacks
             Generic_UI.Instance.player_No.text = "Player_no : 1";
         }
     }
+
     public override void OnPlayerLeftRoom(Photon.Realtime.Player otherPlayer)
     {
-       
         if (otherPlayer == PhotonNetwork.LocalPlayer)
         {
             Debug.Log("You left the match.");
         }
         else
         {
-            Debug.LogError("Player Left");
+            PhotonNetwork.CurrentRoom.IsOpen = false;
+            GameManager.NumberOfPlayers--;
+            PhotonNetwork.totalPlayers = GameManager.NumberOfPlayers;
+            GameManager.totalPlayerInMatch = GameManager.NumberOfPlayers;
             playerRemove = true;
-            view.RPC(nameof(PlayerLeftMessage), RpcTarget.AllBuffered, otherPlayer.ActorNumber,otherPlayer.NickName);
+            view.RPC(nameof(PlayerLeftMessage), RpcTarget.AllBuffered, otherPlayer.ActorNumber, otherPlayer.NickName);
         }
     }
+    public override void OnLeftRoom()
+    {
+        MainMenuUI.Instance.totalPlayer = 0;
+    }
+
+    #region Player Left Match
 
     [PunRPC]
     void PlayerLeftMessage(int actorName,string playerName)
@@ -365,6 +379,9 @@ public class Network_Manager : MonoBehaviourPunCallbacks
             }
         }
     }
+    #endregion
+
+
     void IdentifyExitPlayer(string playerName)
     {
         for (int i = 0; i < GameManager.instance.players.Count; i++)
@@ -388,6 +405,7 @@ public class Network_Manager : MonoBehaviourPunCallbacks
             view.RPC(nameof(RemovePlayerFromMatch), RpcTarget.AllBuffered, playerName);
         }
     }
+
     [PunRPC]
     void RemovePlayerFromMatch(string playerName)
     {
@@ -402,6 +420,7 @@ public class Network_Manager : MonoBehaviourPunCallbacks
             GameManager.instance.players.Remove(playerToRemove);
         }
     }
+
     public void Prepare_turn_selection_options()
     {
         var Current_Player = PhotonNetwork.CurrentRoom.GetPlayer(ShareValues.Current_no);
