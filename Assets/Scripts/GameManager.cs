@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
@@ -94,7 +95,9 @@ public class GameManager : MonoBehaviour {
     public Transform redToken_Holder = null;
     public Transform greenToken_Holder = null;
     public Transform yellowToken_Holder = null;
-    
+
+    [SerializeField] private GameObject winPanel = null;
+    [SerializeField] private Text winTxt = null;
 
     private PhotonView View;
 
@@ -178,6 +181,8 @@ public class GameManager : MonoBehaviour {
     {
         if(players.Count.Equals(1))
         {
+            winPanel.SetActive(true);
+            winTxt.text = "Win Player is " + players[0].name;
             Debug.Log("Win Player is" + players[0].name);
         }
 
